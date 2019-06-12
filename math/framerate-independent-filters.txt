@@ -1,0 +1,47 @@
+
+FRAME RATE INDEPENDENT FILTERS
+
+Damping
+
+float d = powf(NOMINAL_FILTER_COEFF, 60*deltatime);
+
+value_lp = d * value_lp;
+
+value_lp *= d;
+
+
+ex:
+NOMINAL_FILTER_COEFF = 0.9
+120 fps: d = 0.95
+60  fps, d = 0.90
+30  fps: d = 0.81
+15  fps: d = 0.66
+
+
+Filter
+
+float d = powf(NOMINAL_FILTER_COEFF, 60*deltatime);
+
+value_lp = d * value_lp + (1-d) * value_cur;
+
+value_lp = d * value_lp + value_cur - d * value_cur;
+
+value_lp = value_cur + d * (value_lp - value_cur);
+
+or:
+
+float D = 1-powf(NOMINAL_FILTER_COEFF, 60*deltatime);
+
+value_lp = (1-D) * value_lp + D * value_cur;
+
+value_lp = value_lp - D * value_lp + D * value_cur;
+
+value_lp = value_lp + D * (value_cur - value_lp);
+
+value_lp += D * (value_cur - value_lp);
+
+
+----cut---
+float D = 1-powf(NOMINAL_FILTER_COEFF, 60*deltatime);
+value_lp += D * (value_cur - value_lp);
+----cut---
