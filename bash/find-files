@@ -1,0 +1,57 @@
+#!/bin/bash
+
+#
+# This is a little script to find quickly find files and directories in a linux environment (Debian-ish)
+# It is only searching the directories in which I usually look for files
+#
+
+function print_usage {
+  echo "Usage: find-files <options> filename"
+  echo
+  echo "options:"
+  echo "  -h  -  Show this help text"
+  echo "  -f  -  Search for files (default)"
+  echo "  -d  -  Search for directories"
+  echo
+  exit 1
+}
+
+PARAMS=""
+TYPE=f
+while (( "$#" )); do
+  case "$1" in
+    -h|--help)
+      print_usage
+      ;;
+    -d|--directories)
+      TYPE=d
+      echo -ne "\033[1;34m"
+      shift
+      ;;
+    --) # end argument parsing
+      shift
+      break
+      ;;
+    -*|--*=) # unsupported flags
+      shift
+      ;;
+#    -*|--*=) # unsupported flags
+#      echo "Error: Unsupported flag $1" >&2
+#      exit 1
+#      ;;
+    *) # preserve positional arguments
+      PARAMS="$PARAMS $1"
+      shift
+      ;;
+  esac
+done
+# set positional arguments in their proper place
+eval set -- "$PARAMS"
+
+if [ -z $PARAMS ]
+  then
+    print_usage
+fi
+
+find /bin /etc /home /lib /lib32 /lib64 /opt /sbin /var /usr -name "$1" -type $TYPE 2> /dev/null
+echo -ne "\033[0m"
