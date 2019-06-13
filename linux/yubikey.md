@@ -51,7 +51,7 @@ The token id is the first 12 chars of any OTP from your yubikey.
 
 ### Activate pam module for sudo
 
-In /etc/pam.d/sudo:
+In `/etc/pam.d/sudo`, add just before `@include common-auth`:
 
 `auth       sufficient pam_yubico.so id=<client-id> key=<client-secret>`
 
@@ -87,7 +87,7 @@ su "$USER" -c "/usr/bin/cinnamon-screensaver-command -l"
 
 If you are using another desktop environment, the last command must be modified accordingly, i.e. `gnome-screensaver-command -l` for Ubuntu.
 
-### Hook up the script to an udev event
+### Hook up the script to a udev event
 
 Copy the yubikey udev template to enable it
 

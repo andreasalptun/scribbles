@@ -16,4 +16,4 @@
 -d post data
 
 ## Flush DNS cache
-systemd-resolve --flush-caches
+`systemd-resolve --flush-caches`
