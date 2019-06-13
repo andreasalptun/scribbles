@@ -85,6 +85,8 @@ echo "Locking screen for $USER @ $TTY" >> /var/log/udev-yubikey.log
 su "$USER" -c "/usr/bin/cinnamon-screensaver-command -l"
 ```
 
+If you are using another desktop environment, the last command must be modified accordingly, i.e. `gnome-screensaver-command -l` for Ubuntu.
+
 ### Hook up the script to an udev event
 
 Copy the yubikey udev template to enable it
