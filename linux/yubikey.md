@@ -2,7 +2,7 @@
 
 I'm running Linux Mint, Cinnamon edition. This should work on any Debian-ish distro.
 
-## Using GPG key as SSH key
+## Using GPG key as SSH key <a id="#using-gpg-as-ssh"></a>
 
 Make sure you are running gpg2.
 
@@ -11,6 +11,7 @@ Add to `~/.gnupg/gpg.conf` (Create if non-existing).
     personal-digest-preferences SHA256
     cert-digest-algo SHA256
     default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
+    default-key <master key id>
     keyserver hkp://keys.gnupg.net
 
 Add to `~/.gnupg/gpg-agent.conf` (Create if non-existing)
@@ -19,7 +20,7 @@ Add to `~/.gnupg/gpg-agent.conf` (Create if non-existing)
 
 Specify which gpg key to use. Find keygrip for your private auth key, [A], using `gpg -K --with-keygrip`. Add the keygrip hex-value to `~/.gnupg/sshcontrol`
 
-Add to `~/.zshrc` (or `.bashrc`)
+Add to `~/.zshrc` (or `.bashrc`, or `.bash_profile` if you're on mac osx)
 
     export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
     gpgconf --launch gpg-agent
@@ -51,7 +52,7 @@ The token id is the first 12 chars of any OTP from your yubikey.
 
 ### Activate pam module for sudo
 
-In `/etc/pam.d/sudo`, add just before `@include common-auth`:
+In `/etc/pam.d/sudo`, add the following line just before `@include common-auth`:
 
 `auth       sufficient pam_yubico.so id=<client-id> key=<client-secret>`
 

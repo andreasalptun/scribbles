@@ -1,5 +1,11 @@
 # Linux commands
 
+## Add users
+`useradd username`
+
+#### Give sudo privileges by adding to sudoers
+`usermod -aG sudo username`
+
 ## Writing an .iso to a usb thumb drive
 `sudo umount /dev/sdb`
 `sudo dd bs=4M if=debian-live-9.9.0-amd64-cinnamon.iso of=/dev/sdb conv=fdatasync`
