@@ -59,6 +59,10 @@ Add `debug` to module parameters to get verbose.
 
 Get id and secret from [YubiCloud](https://upgrade.yubico.com/getapikey/).
 
+You might want to add the auth line to `su` and `polkit-1` as well. [Polkit](https://en.wikipedia.org/wiki/Polkit) is a component for controlling system-wide privileges and is used by the dialog box seen when installing and changing system preferences in the window manager.
+
+If the auth line is added to the top of `common-auth`, the yubikey can also be used to login to your account and unlock the screen saver without a password. This might **not** be what you want.
+
 ## Lock screen when yubikey is removed
 
 Use [udev](https://opensource.com/article/18/11/udev) to run a script when a yubikey is removed.
