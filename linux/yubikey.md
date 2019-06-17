@@ -6,7 +6,7 @@ I'm running Linux Mint, Cinnamon edition. This should work on any Debian-ish dis
 
 Make sure you are running gpg2.
 
-Add to `~/.gnupg/gpg.conf` (Create if non-existing)
+Add to `~/.gnupg/gpg.conf` (Create if non-existing).
 
     personal-digest-preferences SHA256
     cert-digest-algo SHA256
@@ -98,3 +98,36 @@ Append the following line to the template. If this rule doesn't work on your con
     ACTION=="remove", SUBSYSTEM=="hid", ENV{HID_NAME}=="Yubico YubiKey*", RUN+="/usr/local/bin/yubikey-lock-screen.sh"
 
 Finally, reload the rules with `sudo udevadm control --reload-rules`
+
+## Setup yubikey on a new computer
+
+These are my personal preferences.
+
+#### Add the gpg keys
+
+Insert card and run  `gpg --edit-card`. Then at the gpg prompt, enter `fetch`, then `quit`. The public keys and references to the private subkeys (on the yubikey) are added.
+
+#### Setup SSH
+
+Setup SSH by following instructions for [using GPG as SSH](#using-gpg-as-ssh).
+
+#### For Mac OSX
+
+Install [GPGSuite](https://gpgtools.org/) to get a graphical pin entry dialog. If not installed the gpg-agent will respond with an 'agent refused operation' error. After some further research I found out there is a terminal based pin entry. It got activated after running `gpgconf --kill -v gpg-agent`. I was able to uninstall GPGSuite and it was still working. If you want a graphical dialog install `brew install pinentry-mac` and add it to your gpg-agent.conf as `pinentry-program /usr/local/bin/pinentry-mac`.
+
+#### Fetch the password store
+```
+git clone ssh://username@hostname/path/to/password-store ~/.password-store
+```
+
+#### Install browserpass
+
+For Linux (mint)
+
+I had to build [browerpass-native manually](https://github.com/browserpass/browserpass-native#install-manually) because browserpass could not be found using apt-get.
+
+For Mac OSX
+```
+brew tap amar1729/formulae
+brew install browserpass
+```
