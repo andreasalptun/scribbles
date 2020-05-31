@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# GIT
+git init
+curl http://gitignore.io/api/web,node,linux,macos > .gitignore
+
+# NPM
+npm init -y
+sed -i -e 's|"main": "index.js"|"private": true|g' package.json
+sed -i -e 's|"test": "echo \\"Error: no test specified\\" && exit 1"|"serve": "webpack-dev-server --open",\n\t\t"watch": "webpack --watch",\n\t\t"build": "webpack"|g' package.json
+npm install webpack webpack-cli webpack-dev-server --save-dev
+
+# WEBPACK
+cat > webpack.config.js <<- EOF
+module.exports = {
+  mode: 'development',
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist'
+  }
+};
+EOF
+
+# HTML
+mkdir -p dist
+cat > dist/index.html <<- EOF
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="main.js"></script>
+  </body>
+</html>
+EOF
+
+# JS
+mkdir -p src
+if [ "$1" == "choo" ]
+then
+  echo 'Create choo app'
+  npm i choo
+  npm i choo-devtools --save-dev
+  cat > src/index.js <<- 'EOF'
+var html = require('choo/html')
+var devtools = require('choo-devtools')
+var choo = require('choo')
+
+var app = choo()
+app.use(devtools())
+app.use(countStore)
+app.route('/', mainView)
+app.mount('body')
+
+function mainView(state, emit) {
+  return html `
+    <body>
+      <h1>count is ${state.count}</h1>
+      <button onclick=${onclick}>Increment</button>
+    </body>
+  `
+
+  function onclick() {
+    emit('increment', 1)
+  }
+}
+
+function countStore(state, emitter) {
+  state.count = 0
+  emitter.on('increment', function(count) {
+    state.count += count
+    emitter.emit('render')
+  })
+}
+EOF
+else
+  cat > src/index.js <<- EOF
+const app = document.getElementById('app');
+app.innerHTML = '<p>Hello world!</p>';
+EOF
+fi
+
+git add .
+git ci -m"initial commit"
+
+npm run serve

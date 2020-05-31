@@ -2,6 +2,7 @@
 
 ## Add users
 `useradd username`
+User group: `--ingroup git`, Shell: `--shell bash`
 
 #### Give sudo privileges by adding to sudoers
 `usermod -aG sudo username`
@@ -21,5 +22,12 @@
 -c create cookie jar
 -d post data
 
+JSON:
+
+curl -v -H "Content-Type: application/json" -X PUT -d '{"serialNumber":"qwerty5"}' URL | jq
+
 ## Flush DNS cache
 `systemd-resolve --flush-caches`
+
+## Restart trackpad
+sudo modprobe -r psmouse && sudo modprobe psmouse

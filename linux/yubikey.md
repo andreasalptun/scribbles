@@ -90,7 +90,7 @@ echo "Locking screen for $USER @ $TTY" >> /var/log/udev-yubikey.log
 su "$USER" -c "/usr/bin/cinnamon-screensaver-command -l"
 ```
 
-If you are using another desktop environment, the last command must be modified accordingly, i.e. `gnome-screensaver-command -l` for Ubuntu.
+If you are using another desktop environment, the last command must be modified accordingly, i.e. `gnome-screensaver-command -l` for Ubuntu. ( dbus-send --type=method_call --dest=org.gnome.ScreenSaver /org/gnome/ScreenSaver org.gnome.ScreenSaver.Lock for PopOS)
 
 ### Hook up the script to a udev event
 
@@ -118,7 +118,7 @@ Setup SSH by following instructions for [using GPG as SSH](#using-gpg-as-ssh).
 
 #### For Mac OSX
 
-Install [GPGSuite](https://gpgtools.org/) to get a graphical pin entry dialog. If not installed the gpg-agent will respond with an 'agent refused operation' error. After some further research I found out there is a terminal based pin entry. It got activated after running `gpgconf --kill -v gpg-agent`. I was able to uninstall GPGSuite and it was still working. If you want a graphical dialog install `brew install pinentry-mac` and add it to your gpg-agent.conf as `pinentry-program /usr/local/bin/pinentry-mac`.
+Install [GPGSuite](https://gpgtools.org/) to get a graphical pin entry dialog. If not installed the gpg-agent will respond with an 'agent refused operation' error. After some further research I found out there is a terminal based pin entry. It got activated after running `gpgconf --kill -v gpg-agent`. I was able to uninstall GPGSuite and it was still working. If you want a graphical dialog install `brew install pinentry-mac` and add it to your gpg-agent.conf as `pinentry-program /usr/local/bin/pinentry-mac`. (Also did this, but I don't know if it is necessary `gpg-connect-agent updatestartuptty /bye`).
 
 #### Fetch the password store
 ```
