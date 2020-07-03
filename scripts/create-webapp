@@ -2,7 +2,7 @@
 
 # GIT
 git init
-curl http://gitignore.io/api/web,node,linux,macos > .gitignore
+curl -L http://gitignore.io/api/web,node,linux,macos > .gitignore
 
 # NPM
 npm init -y
@@ -76,6 +76,8 @@ function countStore(state, emitter) {
   })
 }
 EOF
+echo "https://handbook.choo.io/your-first-choo-app/"
+echo "https://choo.io/docs"
 else
   cat > src/index.js <<- EOF
 const app = document.getElementById('app');
